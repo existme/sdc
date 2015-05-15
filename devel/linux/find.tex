@@ -1,0 +1,10 @@
+\section{Finding files}
+\subsection{Update locate database}
+for locate to work use:
+\ic{sudo updatedb}
+
+See the status of locate database:
+\ic{locate -S}
+
+\subsection{Remove located files}
+\ic{locate menu_ent/menu_company_crm_mobile.inc \| xargs -ixxx echo 'xxx'}

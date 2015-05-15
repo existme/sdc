@@ -1,0 +1,33 @@
+% **************************************************
+% *                 SQL Code
+% **************************************************
+\lstnewenvironment{sqlcode}[1][]%
+    {\noindent\minipage{\linewidth}%
+            \lstset{
+            backgroundcolor=\color{backcolour},
+            numberstyle=\tiny\color{codegray},
+            basicstyle=\footnotesize,
+            language=sql,
+            breaklines=true,
+            captionpos=t,
+            caption=#1,
+            showspaces=false,                
+            showstringspaces=false,
+            showtabs=false,                  
+            tabsize=2,
+            frame=b,
+            }
+            \captionsetup{options=code}% execute options set with \captionsetup[code]{...}
+    }
+  {\endminipage}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{DarkBlue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}

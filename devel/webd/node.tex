@@ -1,0 +1,11 @@
+\section {NodeJS}
+\paragraph{Where is nodejs local directory}?\newline
+\begin{itemize}
+	\item use \ic{npm config ls -l} to get the list of all configurations.
+	\item Look for "prefix" item.
+\end{itemize}
+
+\subsection{RoboHydra}
+Somehow RoboHydra doesn't now its plugin folder so it should be provided with the command and the plugin should be copied or linked to that folder:
+
+\ic{robohydra -n -I /usr/local/lib/node_modules/robohydra/plugins/ -P pos}

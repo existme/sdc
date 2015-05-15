@@ -1,0 +1,83 @@
+\section{Cygwin}
+\subsection{Configuration with Console2}
+One of the good things to use in conjunction with Cygwin is Console2 (see these discussions for \href{http://www.hanselman.com/blog/Console2ABetterWindowsCommandPrompt.aspx}{normal use},  \href{https://blog.openshift.com/upgrade-cygwin-to-console2-and-improve-the-productivity-of-openshifts-rhc-client-tools-on-wind/}{Cygwin}, \href{http://szarapka.com/zshohmyzsh/}{mac iterm2}, and \href{http://gurustop.net/blog/2010/12/23/small-tip-using-console2-with-powershell/}{powershell}).
+
+In order to use Cygwin shell in Console2 you should use:
+\ic{cmd /c c:\\cygwin64\\bin\\zsh -l} as the shell command for the main tab. The settings for Console2 is saved in \ic{ \%APPDATA\%/console}.
+
+\paragraph{Installing Oh-My-ZSH on Cygwin64}
+\label{cygwin:error}
+\begin{itemize}
+	\item Use the following commands to install it:\newline
+\begin{jscode}[Installing oh-my-zsh for cygwin]
+wget --no-check-certificate https://raw.github.com/haithembelhaj/oh-my-cygwin/master/oh-my-cygwin.sh -O install.sh
+
+sh install.sh
+\end{jscode}
+
+	\item if you encounter a problem and received errors\footnote{ like \ic{compdef: unknown command or service: git}} when executing zsh, use the following remedy:\newline
+\begin{jscode}
+rm -f ~/.zcompdump; compinit
+\end{jscode}
+I now noticed that .zcompdump was named .zcompdump-modhelius-dell-5.0.2 and this file was almost empty. After running compinit I noticed that a file only named .zcompdump was created, taking the content of this file and copying it into .zcompdump-modhelius-dell-5.0.2 fixed the problem for me[\href{https://github.com/robbyrussell/oh-my-zsh/issues/630#issuecomment-35269324}{reference}].
+\end{itemize}
+
+\paragraph{Setting up colors in Console2}
+To use \href{http://ethanschoonover.com/solarized}{Solarized} color theme with Console2, edit \ic{ \%APPDATA\%/console/console.xml} and replace the \ic{<colors> ... </colors>} section with the following:\newline
+\begin{jscode}[Solarized Color for Console2]
+<colors>
+	<color id="0" r="7" g="54" b="66"/>         <!-- black -->
+	<color id="1" r="38" g="139" b="210"/>      <!-- blue -->
+	<color id="2" r="133" g="153" b="0"/>       <!-- green -->
+	<color id="3" r="42" g="161" b="152"/>      <!-- cyan -->
+	<color id="4" r="220" g="50" b="47"/>       <!-- red -->
+	<color id="5" r="211" g="54" b="130"/>      <!-- magenta -->
+	<color id="6" r="181" g="137" b="0"/>       <!-- yellow/brown -->
+	<color id="7" r="238" g="232" b="213"/>     <!-- white -->
+	<color id="8" r="0" g="43" b="54"/>         <!-- brblack -->
+	<color id="9" r="131" g="148" b="150"/>     <!-- brblue -->
+	<color id="10" r="88" g="110" b="117"/>     <!-- brgreen -->
+	<color id="11" r="147" g="161" b="161"/>    <!-- brcyan -->
+	<color id="12" r="203" g="75" b="22"/>      <!-- brred -->
+	<color id="13" r="108" g="113" b="196"/>    <!-- brmagenta/violet -->
+	<color id="14" r="101" g="123" b="131"/>    <!-- bryellow -->
+	<color id="15" r="253" g="246" b="227"/>    <!-- brwhite  -->
+</colors>
+\end{jscode}
+
+\paragraph{Changing ZSH Theme}
+Oh-My-ZSH comes with several already prepared \href{https://github.com/robbyrussell/oh-my-zsh/wiki/themes}{themes}. To use one of these just change \ic{ZSH_THEME="THEME_NAME"} in \ic{\~/.zshrc}, \textbf{bureau} is a good looking theme on Cygwin. Some of the themes require installing some patched fonts like \href{https://gist.github.com/qrush/1595572}{patched} \textbf{mensch-powerline} or all the other \href{https://github.com/powerline/fonts}{Power Line} fonts (specially for themes like \href{https://gist.github.com/agnoster/3712874}{agnoster}).
+
+\paragraph{Get rid of long User@Host string}
+Inorder to get rid of long user@host string in some of the themes you can add the following lines to \ic{\~/.zhrc}:\newline
+\begin{jscode}[Removing long User@Host string]
+DEFAULT_USER=`whoami`
+user=`whoami`
+HOST="local"
+\end{jscode}
+\newline
+After changing the hostname you might encounter the \ic{compdef: unknown command or service: git} error again which could be resolved as discussed in (\ref{cygwin:error}).
+To see all the available used environmental variables use the command \ic{typeset}.
+
+\paragraph{How to copy current path and use it in another terminal}?\newline
+I couldn't find a way to do it automatically. The closest thing is using xclip equivalent which is getclip/putclip. To install them use \ic{apt-cyg install cygutils-extra} command.
+
+\begin{jscode}[Using aliases to push/pop last directory]
+alias gp="pwd|putclip"
+alias up="cd `getclip`"
+alias getpath="pwd|putclip"
+alias usepath="cd `getclip`"
+\end{jscode}
+
+\textbf{A better way} of doing this is to use a localfile to write last changed directory result.\newline
+\begin{jscode}[Using aliases and a local file to push/pop last directory]
+cdcopy() { cd "$@" ; pwd>~/.lastfolder}
+cc() { pwd>~/.lastfolder}
+usecopiedpath() {lastfolder=$(cat ~/.lastfolder) && cd $lastfolder }
+usecopiedpath
+alias cd=cdcopy
+alias uc=usecopiedpath
+\end{jscode}
+
+
+

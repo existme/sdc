@@ -1,0 +1,33 @@
+\section{JavaScript}
+\paragraph{Good References}
+\begin{itemize}
+	\item A very good reference for learning \href{https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Closures}{Closures}
+	\item Using closures in a sample event\newline
+	\begin{jscode}[Using closures in a sample event]
+ //todo: add the above section to the hover only for anchor elements
+ addEventListener('mousemove', this.on_mousemove(this), false);
+ 
+	};
+	
+	extractor.prototype.on_mousemove = function (scope) {
+		return function (e) {
+			var that = scope;
+			var srcElement = e.srcElement;
+			if (that.prevDOM == null || !srcElement.isSameNode(that.prevDOM)) {
+				var anchor = extractor.findAnchorElement(srcElement);
+				if (anchor != null) {
+					var hRef = anchor.attr('href');
+					if (that.prevHRef != hRef) {
+						that.doMouseOut();
+						that.doMouseIn(anchor, hRef);
+					}
+				}
+				else {
+					that.doMouseOut();
+				}
+			}
+			that.prevDOM = srcElement;
+		}
+	};
+	\end{jscode}
+\end{itemize}

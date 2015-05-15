@@ -1,0 +1,28 @@
+\subsection{Setting up ssh for a remotehost}
+
+
+\begin{bashcode} [making an alias for a remotehost]
+vim ~/.ssh/config
+
+#Add these lines to the file
+Host parastoo
+	HostName 192.168.1.200
+	User parastoo
+\end{bashcode}
+
+Now to reduce prompting for for passphrase:
+
+\begin{bashcode} [Generating key and adding it to ssh-agent]
+	ssh-keygen -t rsa
+	
+	ls .ssh
+	
+	cat $HOME/.ssh/id_rsa.pub | ssh parastoo \
+	'cat >> .ssh/authorized_keys && echo "copied"'
+	
+	exit # exit remote computer
+	
+	ssh-add
+\end{bashcode}
+
+

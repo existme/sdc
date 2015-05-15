@@ -1,0 +1,61 @@
+\section{Linux Processes}
+\subsection{Getting ProcessInfo}
+\begin{lstlisting}[language=bash,caption={Getting pid}]
+pidof httpd
+pidof apache2
+pidof firefox
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,caption={Getting all pids}]
+ps aux | grep httpd
+ps aux | grep apache2
+ps aux | grep  firefox
+
+pgrep firefox
+# list the process called sshd which is owned root
+pgrep -u root sshd
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,caption={Process Tree}]
+# To display a tree of processes
+pstree
+# Print a process tree using ps
+ps -ejH
+ps axjf
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,caption={Get SecurityInfo}]
+ps -eo euser,ruser,suser,fuser,f,comm,label
+ps axZ
+ps -eM
+\end{lstlisting}
+
+\subsection{Killing processes}
+\begin{lstlisting}[language=bash,caption={Kill command}]
+kill [signal] PID
+kill -15 PID
+kill -9 PID
+kill -SIGTERM PID
+kill [options] -SIGTERM PID
+kill -9  pid1 pid2 pid3
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash,caption={KillAll command}]
+killall Process-Name-Here
+killall -15 lighttpd
+killall -9 lighttpd
+killall -9 firefox-bin
+\end{lstlisting}
+\subsection{htop}
+\textbf{htop} is interactive process viewer just like top, but allows to scroll the list vertically and horizontally to see all processes and their full command lines. Tasks related to processes (killing, renicing) can be done without entering their PIDs.
+\begin{lstlisting}[language=bash,caption={installing htop}]
+sudo apt-get install htop
+yum install htop
+htop
+\end{lstlisting}
+\subsection{atop}
+The program \textbf{atop} is an interactive monitor to view the load on a Linux system. It shows the occupation of the most critical hardware resources (from a performance point of view) on system level, i.e. cpu, memory, disk and network. It also shows which processes are responsible for the indicated load with respect to cpu- and memory load on process level;
+
+\begin{lstlisting}[language=bash,caption={atop}]
+atop
+\end{lstlisting}

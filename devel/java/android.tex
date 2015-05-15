@@ -1,0 +1,14 @@
+\section{Android}
+
+\subsection{Gradle}
+	\paragraph{Solving dependency problems when building}
+	\begin{itemize}
+		\item 	To show the dependencies:
+			\ic{gradle -q dependencies}. Also see this \href{http://stackoverflow.com/questions/2098931 7/multiple-dex-files-define-landroid-support-v4-accessibilityservice-accessibility}{link} to learn how to solve the problem with dependencies. \textbf{Important}: to exclude a library you should use:\newline
+			\begin{javacode}[Gradle compile line]
+			    compile ('com.foursquare:foursquare-android-oauth:1.0.1'){
+			    	exclude module: 'support-v4'
+			    }
+			\end{javacode}
+	\end{itemize}
+	

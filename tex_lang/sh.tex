@@ -1,0 +1,59 @@
+% **************************************************
+% *                 sh Style
+% **************************************************
+\lstdefinestyle{mysh}{language=sh,
+	frame=single,
+	morekeywords={git ,tig,ln,rm,sudo,vim,a2ensite,service, apache2, locate, echo, xargs, updatedb,sudo}, 
+	keywordstyle=\color{MidnightBlue}\bfseries,
+	emph={[1]rezasa}, emphstyle={[1]\bfseries\underbar},
+	emph={[2]
+	eweb_update_source, eweb_make_patch, eweb_upload_master, ebizz_dch
+	},
+	emphstyle={[2]\color{Red}},
+	prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\rhookswarrow}},
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\rcurvearrowse\space}},
+	xleftmargin=5pt,
+	gobble=4,
+	breakindent=30ex,
+	breaklines=true, 
+	breakatwhitespace=true,
+	numbers=left, 
+	numberstyle=\scriptsize,
+	%emph={[3]rezashams}, emphstyle={[3]\bfseries\color{Yellow}},
+	literate = 	{\&}{\&}{1\discretionary{}{}{}}
+				{\ -}{{\textcolor{brown}{\textbf{\ -}}}}1
+				{\ --}{{\textcolor{brown}{\textbf{\ --}}}}2
+				{\ .}{{\textcolor{brown}{\textbf{\ .}}}}3
+}
+% **************************************************
+% *                 New Commands
+% **************************************************
+\newcommand{\ic}[1]{\colorbox{WhiteSmoke}{\lstinline[basicstyle=\ttfamily\color{black},style={mysh},]|#1|}}
+\newcommand{\ip}[1]{\lstinline[basicstyle=\ttfamily\color{black}]|#1|}
+
+\lstnewenvironment{bashcode}[1][]%
+{\noindent\minipage{\linewidth}%
+	\lstset{
+		belowcaptionskip=1\baselineskip,
+		backgroundcolor=\color{backcolour},
+		numberstyle=\tiny\color{Blue},		
+		numberstyle=\tiny\color{codegray},
+		language=sh,
+		breaklines=true,
+		captionpos=t,
+		caption=#1,
+		showspaces=false,          
+		showstringspaces=false,
+		showtabs=false,
+		tabsize=5,
+		frame=b,
+		numbers=left,
+		mathescape=false,
+		style=mysh,
+        stringstyle=\color{Purple},
+		escapechar=@,
+	}
+	%\captionsetup{options=code}% execute options set with \captionsetup[code]{...}
+	\captionsetup[lstlisting]{format=listing,margin=-1pt,font={bf,footnotesize}}
+}
+{\endminipage}

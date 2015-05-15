@@ -1,0 +1,26 @@
+\section{TexStudio}
+
+\paragraph{How to write scripts for TexStudio?}
+\begin{itemize}
+	\item see \href{http://texstudio.sourceforge.net/manual/current/usermanual_en.html#SECTION33}{manual}.
+\end{itemize}
+
+\paragraph{Writing Macros}
+Go to Macros->Edit Macro
+
+\begin{javacode}[]
+%SCRIPT
+txt = cursor.selectedText()
+editor.write("\\ic{"+txt+"}")
+cursor.clearSelection()
+\end{javacode}
+
+Or you can use the normal with and then use different \ic{\%<defaultcode\%>} as codeblock place holders:
+
+\begin{javacode}[Using Normal Text]
+	$\backslash$begin{javacode}[%<title%>]
+		%<codeblock%>
+	$\backslash$end{javacode}
+\end{javacode}
+
+Finally using abbreviations you can easily recall a macro. It's important to use backslash($\backslash$) at the beginning of the abbreviation to let the command be executed.

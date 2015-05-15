@@ -1,0 +1,107 @@
+\section{Setting up development environment in WebStorm}
+\paragraph{Agenda}
+\begin{itemize}
+\item How can I set up Chrome for extension development?
+\begin{itemize}
+	\item WebStorm
+	\item Visual Studio
+	\item Chrome Development Tools
+\end{itemize}
+\item What technologies are used to write extensions for Chrome?
+\begin{itemize}
+	\item node.js modules (gulp, express)
+\end{itemize}
+
+\end{itemize}
+\paragraph{Adding stub libraries for having intellisense support}
+\begin{itemize}
+	\item There is a some-more finish stub record that can be total as a library to get formula completion. It's a partial of a Closure Compiler project. Download \href{https://github.com/google/closure-compiler/blob/master/contrib/externs/chrome_extensions.js}{chrome\_extensions.js}.
+	In WebStorm add this files to a library and use it in the project (see \href{http://stackoverflow.com/questions/13997468/how-do-i-use-webstorm-for-chrome-extension-development/25466708#25466708}{here}).
+	Also you need a stub for chrome API (get it \href{https://github.com/linux-china/chrome_js_api_stub}{here}), library or stub could  (\href{https://www.jetbrains.com/webstorm/help/configuring-javascript-libraries.html}{be configured in WebStorm}).
+	\item \dots
+\end{itemize}
+\paragraph{LiveEdit}
+\begin{itemize}
+	\item Use Gulp for reloading extension whenever a change occurs. Create a gulpfile.js in app folder (see \ref{app:ch:gulpfile}).	
+	Goto the extension directory and use \ic{gulp dev}.
+	\item Content scripts should be reloaded (see this \href{http://stackoverflow.com/questions/10994324/chrome-extension-content-script-re-injection-after-upgrade-or-install}{question}).
+\end{itemize}
+\paragraph{Chrome APIs References}
+\begin{itemize}
+	\item Web \href{https://developer.chrome.com/extensions/api_other}{APIs}
+	\item Chrome \href{https://developer.chrome.com/extensions/api_index}{JavaScript APIs} such as (tabs, history, bookmarks, events, alarms \dots)
+	\item Document Object Mode (\href{https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model}{DOM})
+	\item Creating a basic \href{http://talks.codegram.com/creating-basic-chrome-extensions}{chrome extension}
+	\item Chrome extension \href{https://developer.chrome.com/extensions/samples}{samples}
+	\item Chrome app \href{https://github.com/GoogleChrome/chrome-app-samples}{samples}
+	\item Google Chrome Development: \href{https://developer.chrome.com/extensions/faq}{Frequently Asked Questions}
+	\item Google Guids : \href{https://developer.chrome.com/extensions/overview#arch}{Architecture}
+	\item Manifest file \href{https://developer.chrome.com/extensions/manifest}{format}
+	\item JQuery API \href{http://api.jquery.com/category/selectors/}{reference}.
+\end{itemize}
+\newpage
+\paragraph{How to use JQuery in a chrome extension \cite{carl-jquery}}
+\begin{itemize}
+	\item Get a copy of \href{http://jquery.com/download/}{JQuery} and add \ic{jquery.min.js} to the app folder.
+	\item Add its path to manifest.json:\newline
+		\ic{"background": { "scripts": [ "scripts/jquery-2.1.3.js", ...] },}
+\end{itemize}
+\paragraph{How to include another javascript in the current extension?}
+\begin{itemize}
+	\item One way is to add the script as background in manifest.json file like:\newline
+	\ic{"background": { "scripts": [ "xxx.js", ...] },}
+	\item Another way is to add it as content script ( see this \href{http://stackoverflow.com/questions/21885167/running-jquery-script-triggered-by-context-menu-in-chrome-extension}{question})
+	\item For value passing see this \href{http://stackoverflow.com/questions/9515704/building-a-chrome-extension-inject-code-in-a-page-using-a-content-script/9517879#9517879}{question} and this \href{http://stackoverflow.com/questions/26140443/executing-code-at-page-level-from-background-js-and-returning-the-value}{one}.
+\end{itemize}
+
+\paragraph{How to run a simple JQuery using browser actions?}
+\begin{itemize}
+	\item How to catch popup onclick event?
+	\begin{itemize}
+		\item you cannot add onclick event listener with the \ic{default_popup} use \ic{popup} instead.
+	\end{itemize}
+	\item To use JQuery in the active tab, it should be injected into the page (see this \href{http://stackoverflow.com/questions/21885167/running-jquery-script-triggered-by-context-menu-in-chrome-extension}{question})
+\end{itemize}
+
+\paragraph{How to deminify a script?}
+\begin{itemize}
+	\item Use \href{http://jsbeautifier.org/}{jsbeautifier.org} or use the referred plugins at that page.
+	\item Chrome developer tools has this feature built-in. Bring up the developer tools (pressing F12 is one way), in the Sources tab, the bottom left bar has a set of icons. The "{}" icon is "Pretty print" and does this conversion on demand.
+\end{itemize}
+
+\paragraph{How to catch hover event in an extension?}
+\begin{itemize}
+	\item You can use onMouseMove event for that purpose (see this \href{https://stackoverflow.com/questions/4445102/google-chrome-extension-highlight-the-div-that-the-mouse-is-hovering-over/4446039#comment4855863_4445644}{question}).
+	\item If you want to have a delay before hover (see \ref{app:ch:hover}).
+\end{itemize}
+\paragraph{How to send background http request and act upon the results}?\newline
+\begin{jscode}
+	    $.get(href, function (data) {
+	    	var jq = $($.parseHTML(data));
+	    	var res = jq.find('#profile_videos a .p_header_bottom');
+	    	console.log(href + " : " + res.text());
+	    });	    
+\end{jscode}
+\paragraph{How to be notified when new contents are loaded}?\newline
+\begin{itemize}
+	\item One way is using \ic{DOMSubtreeModified} which is complicated
+	\item Another way is using \ic{livereload} plugin which is not efficient.
+\end{itemize}
+
+\paragraph{How to inject html using content.js}?\newline
+\begin{jscode}
+window.addEventListener("load", function () {
+	var url = chrome.extension.getURL("popup-info.html");
+	$.get(url, function (data) {
+		$('body').prepend( '<style>some style...</style>' + data )
+	});
+});
+\end{jscode}
+\begin{thebibliography}{9}
+	\bibitem{carl-jquery}	
+	Creating a chrome extension that uses jQuery to manipulate the DOM of a page.
+	\emph{Carl Topham, \date{2015-02-01},}
+	 \href{http://carl-topham.com/theblog/post/creating-chrome-extension-uses-jquery-manipulate-dom-page/}{(online-link)}
+\end{thebibliography}
+
+%create textstudio config in dropbox

@@ -1,0 +1,47 @@
+\section{JQuery}
+\paragraph{Selectors}
+\begin{itemize}
+\item A tag name: \ic{\$('p')} gets all paragraphs in the document.
+\item An ID: \ic{\$('#some-id')} gets the single element in the document that has the corresponding some-id ID.
+\item A class: \ic{\$('.some-class')} gets all elements in the document that have a class of some-class.
+\end{itemize}
+\begin{jscode}[Change an element onload]
+$(document).ready(function() {
+	$('.poem-stanza').addClass('emphasized');
+});
+\end{jscode}
+ 
+\paragraph{Check if an element is inside another specific element}:\newline
+\begin{jscode}
+	if ( $(".child-element").parents("#main-nav").length == 1 ) { 
+		// YES, the child element is inside the parent
+	} else {
+		// NO, it is not inside
+	}
+\end{jscode}
+\paragraph{Find if there is a relation between parent and child}:\newline
+\begin{jscode}
+if($(' #childElementID'  ,  parentElementId).length == 1) // child is inside parent
+\end{jscode}
+
+
+
+\paragraph{Find a certain element within the children}:\newline
+\begin{jscode}
+	$(".element")find("a").first();
+\end{jscode}
+
+\paragraph{Get element's attribute}:\newline
+\begin{jscode}
+	$(".element").attr('href')
+\end{jscode}
+
+\paragraph{Change element Style}:\newline
+\begin{jscode}
+	$(".element").css("background-color", "blue");
+\end{jscode}
+
+\paragraph{Get element text}:\newline
+\begin{jscode}
+$(".element").text();
+\end{jscode}

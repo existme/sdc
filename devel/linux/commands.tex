@@ -1,0 +1,14 @@
+\section{Commands}
+\subsection{chown}
+In order to change the owner of a file or directory to a user or group which have special characters like space you could use the following workaround:
+\ic{id reza}
+\begin{lstlisting}[language=bash,caption={Process Tree}]
+id reza
+
+uid=689677042(rezasa) gid=868142252(COMPANYNET\Domain Users) ...
+
+sudo chown -R rezasa:868142252 ../spec
+\end{lstlisting}
+
+\subsection{xwininfo}
+Can give you geometrical size of the current window.

@@ -1,0 +1,177 @@
+\section{Branches}
+
+\ic{git checkout -b <new_branch>}
+
+BRANCHES SHOULD ALWAYS BE IN LOWER CASE
+
+Show all branches:
+\ic{git fetch origin}
+
+\ic{git branch -v -a }
+
+\ic{git checkout remotes/origin/dev/adp_online_agree_t46324}
+
+\ic{git branch --set-upstream dev/show_nfr_warnings_58187 origin/dev/show_nfr_warnings_58187}
+
+
+\ic{git fetch origin}
+
+\ic{git branch -v -a}
+
+\ic{git checkout -b test origin/test}
+
+\section{Aliases}
+
+Adding aliases:
+Basically you just need to add lines to \ic{\~/.gitconfig}
+\begin{lstlisting}
+[alias]
+st = status
+ci = commit -v
+Or you can use the git config alias command:
+\end{lstlisting}
+
+\ic{git config --global alias.st status }
+\ic{git config --global alias.ci 'commit -v'}
+
+A manual alias like \ic{gitall} could be added to see the current listing of aliases:
+
+\ic{alias gitall="git config --list \| grep alias"}
+
+\section{Reverting}
+The easiest way is to:
+\ic{git reset --hard}
+\ic{git reset --hard origin/master}
+
+Recovering a removed file
+
+\ic{git reset HEAD file}
+
+\ic{git checkout -- file}
+\\\\
+ignore the last commit reverts everything!\\
+\ic{git reset --hard "HEAD^"}
+\\\\
+ignore the last commit keeps everything\\
+\ic{git reset --soft "HEAD^"}
+\\\\
+shows all branches
+\ic{gitk --all}
+\\\\
+Show the changes changes
+\ic{vimdiff agreement_new/new.php agreement/new.php}
+\\\\
+\ic{git branch --set-upstream dev/show_nfr_warnings_58187 origin/dev/show_nfr_warnings_58187}
+\\\\
+\ic{git status -s}\\
+\ic{git commit -a -m "message"} //will add modified files and commit\\
+\ic{git config --global color.ui true}\\
+\ic{git log --all}
+
+\section{Stashing}
+
+In Git you can drop your current work state in to a temporary storage area stack and then re-apply it later. The simple case is as follows:
+
+\begin{lstlisting}[language=sh,style=mysh]
+git stash
+git stash pop
+git stash drop stash@{1}
+git stash save "My stash message"
+git stash list
+git stash apply stash@{1}
+git stash branch					#Create a branch from stash
+git stash show -p					#Show the differences
+\end{lstlisting}
+
+\begin{lstlisting}[language=sh,style=mysh]
+git add -i
+git add -p
+
+git log -p
+git log --stat
+git log --author=Andy
+git log --grep="Something in the message"
+git log lib/foo.rb
+git log --since=2.months.ago --until=1.day.ago
+git log --since=2.months.ago --until=1.day.ago --author=andy -S "something" --all-match
+
+git log master ^origin/master
+git log origin/master ^master
+
+git unstage lib/foo.rb
+
+git blame lib/foo.rb
+
+git reflog
+
+git mergetool --tool-help 
+git config --global alias.lol "log --pretty=oneline --abbrev-commit --graph --decorate"
+git config --global alias.unstage "reset HEAD"
+
+
+git config --global diff.tool vimdiff
+git config --global difftool.prompt false
+git config --global alias.d difftool
+\end{lstlisting}
+
+\section{Squashing commits with rebase}
+Use \ic{git lol} to see the logs and decide how many commits you want to squash. Do a rebase by mergin for example last 4 commits.
+
+
+\ic{git rebase -i HEAD~4}
+
+\textbf{An easier} and safer way would be:
+\ic{git merge --squash branch}
+\section{Amending last commit}
+
+To change the last commit message:
+
+\section{How to fix cygwin git unnecessary change detection}
+Use \ic{git config --local -e} and set \ic{filemode=false}
+
+
+\begin{lstlisting}[language=sh,style=mysh]
+git commit --amend
+git commit --amend -m "New commit message"
+\end{lstlisting}
+
+\section{How to see the origin address}
+\ic{git remote show origin}
+
+\section{How to use a pre-written commit message}
+\ic{git commit -F commit.log}
+
+\section{How to save password when using git (see \href{http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typing-when-using-https-github}{src})}
+\begin{itemize}
+	\item Linux:\newline
+	\begin{bashcode}
+		sudo apt-get install libgnome-keyring-dev
+		cd /usr/share/doc/git/contrib/credential/gnome-keyring
+		sudo make
+		git config --global credential.helper
+		/usr/share/doc/git/contrib/credential/gnome-keyring/
+		git-credential-gnome-keyring
+	\end{bashcode}
+	\item Mac:\newline
+	\begin{bashcode}
+		git config --global credential.helper osxkeychain
+	\end{bashcode}
+	\item Windows:\newline
+	For Windows, there is a helper called \href{http://gitcredentialstore.codeplex.com/}{git-credential-winstore.exe} or \href{https://stackoverflow.com/questions/11693074/git-credential-cache-is-not-a-git-command}{wincred in msysgit}.
+\end{itemize}
+\section{What if a file is no longer being tracked by git?}
+The only way that I found is this (keep a copy of file beforehand.)
+
+\begin{bashcode}
+	git rm --cached path/to/file
+	git reset path/to/file
+\end{bashcode}
+
+\section{Working with remote branches}
+\begin{itemize}
+	\item Checkout a remote branch: \ic{git co hotfix/my_fix}
+	\item Delete a remote branch: \ic{git push origin --delete hotfix/my_fix}
+\end{itemize}
+
+\section{Git flow}
+See this \href{http://danielkummer.github.io/git-flow-cheatsheet/}{document}.

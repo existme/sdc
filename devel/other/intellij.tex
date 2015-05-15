@@ -1,0 +1,108 @@
+\section{IntelliJ}
+
+\paragraph{What are some of the IntelliJ's most important shortcuts ?}
+
+\begin{itemize}
+	\item Build: \ic{ctrl + f9}
+	\item To show tool windows press \ic{alt(Win)\|command(Mac)} twice
+	\item To navigate to any part of the file path just press \ic{ctrl + click}
+	\item \textbf{Auto Competition}
+	\begin{itemize}
+		\item Auto complete filename: \ic{ctrl + SPACE} (twice first time root second time all)
+		\item Auto complete a word name from open files (Cyclic Expand Word): \ic{alt + /} (do it several times to browse through)
+		\item Postfix completion (check on IntelliJ) after an string or number put a dot(.) 
+		\item \textbf{fishshell}: you can use fishshell to have auto completion in IntelliJ
+	\end{itemize}
+
+	\item \textbf{Running}
+	\begin{itemize}
+		\item Toggle breakpoint: \ic{ctrl + F8}
+		\item Step over: \ic{F10}
+		\item Step into: \ic{F11}
+		\item Resume: \ic{F9}
+		\item RunTest: \ic{ctrl + shift + F10}
+		\item RunTest in Debug mode: \ic{ctrl + shift + F9}
+		\item RunTest menue: \ic{alt + shift + F10}
+	\end{itemize}
+
+	\item \textbf{Code Editing}
+	\begin{itemize}
+		\item Moving up/down a block: \ic{ctrl + alt + UP/DOWN}
+		\item For commenting you can use \ic{/**}: if you want to have shortcut use \ic{Fix Doc Comment} action
+		\item Multiple selection (rename): \ic{alt + J (win/linux) | ctrl + G}
+		\item Insert/Show the list of \textbf{live template}: \ic{ctrl + J}
+		\item Surround with: \ic{ctrl + alt + T}
+		\item Toggle folding: \ic{ctrl numpad +/-}
+		\item Reformat Code: \ic{ctrl + alt + L}
+		\item Cycle through the history of changes position: \ic{ctrl + shift + BACKSPACE}
+		\item Paste from clipboard buffer: \ic{ctrl + shift + V}
+		\item Incremental Selection: \ic{ctrl + W} (should be changed perhaps?)
+		\item Delete Line: \ic{ctrl + Y}
+		\item Comment/Uncomment: \ic{ctrl + /}
+		\item Refactor this: \ic{ctrl + shift + R}
+		\item Duplicate line or block: \ic{ctrl + D}
+		\item Jump between highlighted syntax errors: \ic{F2 \| shift F2}
+		\item Navigate through the methods of the open file: \ic{alt UP/Down}
+		\item Join lines and remove unnecessary white spaces: \ic{ctrl + shift + J}
+		\item When using code completion use tab instead of enter to completly replace the text
+		\item To see the View|Quick Definition use : \ic{ctrl + shift + I}
+		\item To reorganize the code you can use on statement or class level: \ic{ctrl + shift + UP/DOWN}
+		\item Generate Code : \ic{ctrl + shift + INSERT}
+		\item Show Generate Menu : \ic{alt + INSERT}
+		\item Implement methods : \ic{ctrl + I}
+		\item \textbf{Sorround} with : \ic{ctrl + alt + T}
+		\item \textbf{Refactoring}
+		\begin{itemize}
+			\item Use Refactor|Copy to create a copy of the current class: \ic{F5}
+			\item Use Refactor|Move to turn a method to a class or extract: \ic{F6}
+			\item Use Refactor|Extract variable to refactor a variable : \ic{ctrl + alt + V}
+			\item Use Refactor|Extract method to refactor a block to a method :\ic{ctrl + alt + M} | \ic{command + alt + M}
+		\end{itemize}
+	\end{itemize}
+
+	\item \textbf{Finding}
+	\begin{itemize}
+		\item \textbf{Show usage \ic{ctrl + alt + F7}}: show usage of a member in the whole project
+		\item Use \ic{ctrl + shift + F7} to search for the usage of a certain variable in the current file. Use F3 to navigate the results and double escape to get out of the highlight mode. Moreover if you put the caret on a return point of a method, all exit points would be highlighted.
+		\item Find member(symbol) : \ic{ctrl + alt + shift + N}
+		\item Finding actions: \ic{ctrl + shift + A} (for example type save live)
+		\item List class members: \ic{ctrl + F12}
+		\item Goto file (Navigate File): select a text and then use \ic{ctrl + shift + N}. \textbf{Note} if you right-click on a folder and set it as (Mark directory as->)"resource root" in manycases you can instantly jump to file by just using ctrl+click
+		\item Show recently changed files: \ic{Ctrl + Shift + E}
+		\item Navigate to a filename: \ic{ctrl + N}
+		\item Goto Line no: \ic{ctrl + G}
+		\item Find all changes that happened to the project: \ic{alt + shift + C}
+		\item Navigation bar is a quick alternative to project view: \ic{alt + HOME}
+	\end{itemize}
+	\item \textbf{VCS Management}
+	\begin{itemize}
+		\item Show CVS changes: \ic{alt + 9}
+		\item Show commit changes dialog: \ic{ctrl + K}
+		\item Show push changes dialog: \ic{ctrl + shift + K}
+		\item To compare two files, select them and use \ic{ctrl + D}
+	\end{itemize}
+\end{itemize}
+Moreover, you can check the following page : \href{https://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard.pdf}{IDEA Reference Card} or alternately choose Help|Default Keymap Reference.
+
+\paragraph{How to fix cursor movement}
+	\begin{itemize}
+		\item Go to settings [ Ctrl+Alt+S ]
+		\item Choose [ Editor $\rightarrow$ Smartkeys ]
+		\item Check the [ Use "CamelHumps" Words ] button
+	\end{itemize}
+
+\paragraph{How to integrate with and issue tracking system}
+
+\begin{itemize}
+	\item \textbf{youtrack}
+	\begin{itemize}
+		\item The url is \href{}{http://<username>.myjetbrains.com/youtrack}
+		\item The login name is the user id used in youtrack profile (by default is root)
+		\item In order to only show tasks only related to the current project add the pattern to search textbox: \ic{project:LinkQuery} (you should probably remove assign:me as well)
+	\end{itemize}	
+\end{itemize}
+
+\subsection {Updating Maven Repo}
+In order to be able to search for maven artifacts Maven Central Repository should be updated. Goto Maven Repositories and update \href{http://repo.maven.apache.org/maven2}{http://repo.maven.apache.org/maven2}. 
+
+When changing the maven POM file we need to reimport it in IntelliJ to be able to compile the project. This will cause \textbf{project.iml} file be updated which is needed for IntelliJ to be able to compile.

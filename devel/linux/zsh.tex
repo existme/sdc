@@ -1,0 +1,135 @@
+\subsection{ZSH}
+Shortcuts:
+
+\begin{bashcode} 
+		Ctrl+X u			->	undo
+		echo $PWD<TAB>		->  echo /home/pws/zsh/projects/zshguide
+		echo !!<TAB>		->  echo echo 3.1.7
+		echo ~/.z*<TAB>		->  echo /home/pws/.zcompdump /home/pws/.zlogout /home/pws/.zshenv /home/pws/.zshrc
+		print ${ZSH_V<TAB>	->	${ZSH_VERSION}
+\end{bashcode}
+
+\subsection{Autoload}
+autoload can import function definition header (but not the body) so that the functions are loaded once they are used.
+
+To see the functions that are currently loaded via autoload, you can use:\newline
+\ic{autoload -U \| less}
+
+Autoload functions are located in "\ip{/usr/share/zsh/functions}". A common pattern for loading these functions is \ic{autoload -U colors && colors}. The colors script is located in \ip{/usr/share/zsh/functions/Misc}.
+
+\subsection{Colors}
+One safe way to use colors is defining them via \ic{tput}.
+
+\begin{bashcode}
+	BLACK=$(tput setaf 0)
+	RED=$(tput setaf 1)
+	GREEN=$(tput setaf 2)
+	YELLOW=$(tput setaf 3)
+	LIME_YELLOW=$(tput setaf 190)
+	POWDER_BLUE=$(tput setaf 153)
+	BLUE=$(tput setaf 4)
+	MAGENTA=$(tput setaf 5)
+	CYAN=$(tput setaf 6)
+	WHITE=$(tput setaf 7)
+	BRIGHT=$(tput bold)
+	NORMAL=$(tput sgr0)
+	BLINK=$(tput blink)
+	REVERSE=$(tput smso)
+	UNDERLINE=$(tput smul)
+\end{bashcode}
+the other way is by loading colors script.
+\ic{autoload -U colors &&  colors} \newline
+and then using them in code like:
+\ic{echo $bg[red]$fg[white] reza \$reset_color}
+
+Inorder to use these colors you can use the following shortcuts:
+
+\begin{bashcode}
+	$fg_bold[color]	
+	$fg_no_bold[color]
+	$bg[color]
+	$bg_bold[color]
+	$bg_no_bold[color]
+	$boldcolor
+	$resetcolor	
+\end{bashcode}
+
+Or use it in prompt li	ke:\newline
+\begin{bashcode}
+	PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
+\end{bashcode}
+
+To use other features like underline, overline, etc. you should do a little more:\newline
+\begin{bashcode}
+local lc=$'\e[' rc=m	# Standard ANSI terminal escape 
+
+echo $fg_bold[red] reza $fg_no_bold[red]shams "$lc"09";${color[white]}$rc" amiri $reset_color 
+\end{bashcode}
+
+\begin{bashcode}[The variables that could be used with color]
+	color=(
+		# Codes listed in this array are from ECMA-48, Section 8.3.117, p. 61.
+		# Those that are commented out are not widely supported or aren't closely
+		# enough related to color manipulation, but are included for completeness.
+		
+		# Attribute codes:
+		00 none                 # 20 gothic
+		01 bold                 # 21 double-underline
+		02 faint                  22 normal
+		03 standout               23 no-standout
+		04 underline              24 no-underline
+		05 blink                  25 no-blink
+		# 06 fast-blink           # 26 proportional
+		07 reverse                27 no-reverse
+		08 conceal                28 no-conceal
+		# 09 strikethrough        # 29 no-strikethrough
+		
+		# Font selection:
+		# 10 font-default
+		# 11 font-first
+		# 12 font-second
+		# 13 font-third
+		# 14 font-fourth
+		# 15 font-fifth
+		# 16 font-sixth
+		# 17 font-seventh
+		# 18 font-eighth
+		# 19 font-ninth
+		
+		# Text color codes:
+		30 black                  40 bg-black
+		31 red                    41 bg-red
+		32 green                  42 bg-green
+		33 yellow                 43 bg-yellow
+		34 blue                   44 bg-blue
+		35 magenta                45 bg-magenta
+		36 cyan                   46 bg-cyan
+		37 white                  47 bg-white
+		# 38 iso-8316-6           # 48 bg-iso-8316-6
+		39 default                49 bg-default
+		
+		# Other codes:
+		# 50 no-proportional
+		# 51 border-rectangle
+		# 52 border-circle
+		# 53 overline
+		# 54 no-border
+		# 55 no-overline
+		# 56 through 59 reserved
+	)
+\end{bashcode}
+
+\subsection{alias}
+To remove an alias, the unalias command is used, like so:
+\ic{unalias foo}
+
+\subsection{Super user setup}
+To have a \textit{login shell session} you should use:
+\ic{su -} or \ic{su -l}. This means that the user’s environment is loaded and the working directory is changed to the user’s home directory. 
+
+\subsection{check to see if a function exists}
+\begin{bashcode}
+	if [ type __promptline \&>/dev/null ]; then
+		__promptline
+	fi       
+\end{bashcode}

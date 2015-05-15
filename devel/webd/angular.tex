@@ -1,0 +1,39 @@
+\section{Angular}
+Angular main features are available through
+\begin{itemize}
+	\item \textbf{ng-app} The angular application\newline
+	 First parameter is the name of the module and the second is the list of dependencies(injectables).\newline
+	\begin{jscode}
+		// the setter module
+		angular.module('myApp', []);
+		// this method fetches the app
+		angular.module('myApp')
+	\end{jscode}
+	
+	\item ng-controller\newline
+	A typical controller could be like this\newline
+	\begin{jscode}[controller]
+		function MyController($scope) {
+			var updateClock = function () {
+				$scope.clock = new Date();
+			};
+			setInterval(function () {
+				$scope.$apply(updateClock);
+			}, 1000);
+			updateClock();
+		};
+	\end{jscode}
+	
+	\item \textbf{Scopes}\newline
+	\begin{itemize}
+		\item he glues between application and the models (source of truth for application state)
+		\item propagate changes through \ic{apply} mechanism
+		\item propagate events?
+		\item application logic could be in controller and working data in the scope of controller.
+		\item The \ic{ng-app} is binded to the \ic{$rootscope}.
+	\end{itemize}
+\end{itemize}
+
+\section{(Ocean)}
+\ic{mysql -u posapp -p}
+\ic{rwqfam6cxj}

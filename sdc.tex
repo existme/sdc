@@ -1,0 +1,153 @@
+\documentclass[a4paper]{report}
+\usepackage{wrapfig}
+\usepackage{MnSymbol}
+\usepackage[toc,page]{appendix}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+%\usepackage{courier} % Required for the courier font
+\usepackage{soul}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the templates
+\usepackage{caption}
+\usepackage[Bjornstrup]{fncychap}
+\usepackage{csquotes}
+\usepackage{ifxetex}
+
+%\ifxetex
+	\usepackage[no-math]{fontspec}
+	\setmainfont{Ubuntu}
+	\defaultfontfeatures{Ligatures=TeX}
+%\else
+%\fi
+
+\usepackage{listings}
+% **************************************************
+% *                 Indexing
+% **************************************************
+
+\usepackage{makeidx}     % only with Latex2e
+\usepackage{showidx}
+\makeindex
+
+% **************************************************
+% *                 Colors
+% **************************************************
+\usepackage{color, colortbl}
+\input{tex_colors}
+% **************************************************
+% *                 Margins
+% **************************************************
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% **************************************************
+% *                 Header/Footer/Title
+% **************************************************
+\include{titlepage}
+
+% **************************************************
+% *                 Hyperlink setup
+% **************************************************
+\usepackage[a4paper=true,pagebackref=false]{hyperref}
+\hypersetup{
+    colorlinks = true,
+    linkcolor = black,
+    anchorcolor = red,
+    citecolor = blue,
+    filecolor = red,
+    pagecolor = red,
+    urlcolor = blue
+}
+
+%-----------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%-----------------------------------------
+\usepackage{geometry}
+\geometry{left=1.0in,right=1.0in,top=1.0in,bottom=1.0in }
+
+\DeclareCaptionFont{white}{ \fontfamily{Ubuntu}\color{white} }
+\DeclareCaptionFormat{listing}{	
+  \colorbox{DarkGray}{    
+  	\parbox{.99\textwidth}{\hspace{5pt}#1#2#3}
+  }
+}
+\captionsetup[lstlisting]{ 
+	format=listing,
+	justification=centering,
+	labelfont=white,
+	textfont=white,
+	singlelinecheck=true,
+	margin={0mm,0mm},
+	indention=0pt,
+	font={bf,footnotesize},
+	skip=-3pt,
+}
+
+% **************************************************
+% *                 Commands
+% **************************************************
+\include{commands}
+\input{tex_lang/sh}
+\input{tex_lang/sql}
+\input{tex_lang/java}
+\input{tex_lang/js}
+\input{tex_lang/perl}
+%----------------------------------------------------------------------
+\begin{document}
+\maketitle
+%\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+\newpage
+\tableofcontents
+\newpage
+
+%\input{crm/crm}
+%----------------------------------------------------------------------
+\chapter{PHP}
+\chapter{Perl}
+\chapter{MySQL}
+\input {mysql}
+\chapter{Java}
+\input {devel/java/java}
+\input {devel/java/maven}
+\input {devel/java/glassfish}
+\input {devel/java/android}
+\input {devel/java/jpa}
+\chapter{Rest APIS}
+\input {devel/rest/rest}
+\chapter{Javascript}
+\input {devel/webd/javascript}
+\input {devel/webd/angular}
+\input {devel/webd/jquery}
+\input {devel/webd/node}
+\chapter{Linux}
+\input {devel/linux/zsh}
+\input {devel/linux/commands}
+\input {devel/linux/processes}
+\input {devel/linux/find}
+\input {devel/linux/install}
+\input {devel/linux/crontab}
+\input {devel/linux/config}
+\input {devel/linux/KDE}
+\input {devel/linux/hardware}
+\chapter{Git}
+\input {devel/linux/git}
+\chapter{ChromeExtension Development}
+\input {devel/chrome/extensions}
+\chapter{Other}
+\input {devel/other/texstudio}
+\input {devel/other/intellij}
+\input {devel/other/cygwin}
+\appendix 
+\input {appendix/chrome}
+\chapter{Android Upgrade}
+\input {devel/other/android}
+\end{document}

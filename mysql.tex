@@ -1,0 +1,144 @@
+\section{Configuration}
+\subsection{Config file}
+Go through this ritual a few thousand times over the course of a year, and you've just lost several hours of time due to merely logging in. Eliminate this tedious step by creating a file named .my.cnf and placing it in your home directory.
+
+\ic{vim /home/rezasa/.my.cnf}
+\subsection {Enable tab compilation}
+Add the following to the configuration file.
+
+\begin{sqlcode}[Enable tab compilation]
+[mysql]
+auto-rehash
+\end{sqlcode}
+\subsection {Silent mode}
+If you produce output from mysql to be used with this program, a header row would throw off the results because summarize would count the column heading. To create output that contains only data values, suppress the column header row with the silent mode.
+
+\begin{sqlcode}[Enable silent mode]
+[mysql]
+silent
+\end{sqlcode}
+
+\subsection{Automatically Switch to a Database}
+\begin{sqlcode}[Automatically Switch to a Database]
+[client]
+database = your\_database\_name
+\end{sqlcode}
+\section{Commands}
+\subsection{Database structure}
+\begin{sqlcode}[Database manipulation and query commands]
+use [database name]
+show databases;
+show tables;
+desc [table-name];
+show index from table_name
+\end{sqlcode}
+\subsection{Table Commands}
+\subsubsection{Create Table}
+\begin{sqlcode}[Create Table]
+CREATE TABLE table_name (create_clause1, create_clause2, ...)
+\end{sqlcode}
+
+Creates a table with columns as indicated in the create clauses.
+\begin{itemize}
+\item create\_clause
+\begin{itemize}
+	\item column name followed by column type, followed optionally by modifiers. 
+	For example, \ic{"gene_id INT AUTO_INCREMENT PRIMARY KEY"} (without the quotes) 
+	creates a column of type integer with the modifiers described below.
+\end{itemize}
+\item create\_clause modifiers
+\begin{itemize}
+	\item \textbf{AUTO\_INCREMENT} : each data record is assigned the next sequential number when it is given a NULL value.
+	\item \textbf{PRIMARY KEY} : Items in this column have unique names, and the table is	indexed automatically based on this column.	One column must be the PRIMARY KEY, and only one column may be the
+	\item \textbf{PRIMARY KEY} : This column should also be NOT NULL.
+	\item \textbf{NOT NULL} : No NULL values are allowed in this column: a NULL generates an error message as the data is inserted into the table.
+	\item \textbf{DEFAULT} value : If a NULL value is used in the data for this column, the default value is entered instead.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Drop Table}
+\begin{sqlcode}[Drop Table]
+DROP TABLE table_name
+\end{sqlcode}
+
+Removes the table from the database. Permanently! So be careful with this command!
+
+\subsubsection{ALTER TABLE}
+\begin{sqlcode}[ALTER TABLE]
+ALTER TABLE table_name ADD (create_clause1, create_clause2, ...)
+\end{sqlcode}
+
+Adds the listed columns to the table.
+
+\subsubsection{ALTER TABLE ... DROP ...}
+\begin{sqlcode}[ALTER TABLE ... DROP ...]
+ALTER TABLE table_name DROP column_name
+\end{sqlcode}
+
+Drops the listed columns from the table.
+
+\subsubsection{Drop Table}
+\begin{sqlcode}[Drop Table]
+DROP TABLE table_name
+\end{sqlcode}
+
+Removes the table from the database. Permanently! So be careful with this command!
+
+\subsection {Data Commands}
+\subsubsection{INSERT}
+\begin{sqlcode}[INSERT table VALUES (...)]
+INSERT [INTO] table_name VALUES (value1, value2, ...)
+\end{sqlcode}
+
+Insert a complete row of data, giving a value (or NULL) for every column in the proper order.
+
+\begin{sqlcode}[INSERT table (...) VALUES (...)]
+INSERT [INTO] table_name (column_name1, column_name2, ...) VALUES (value1, value2, ...)
+\end{sqlcode}
+
+\begin{sqlcode}[INSERT table SET Column=Value]
+INSERT [INTO] table_name SET column_name1=value1, column_name2=value2, ...
+\end{sqlcode}
+
+Insert data into the listed columns only. Alternate forms, with the SET form showing column assignments more explicitly.
+\subsubsection{DELETE}
+\begin{sqlcode}[DELETE FROM tablename]
+DELETE FROM table_name WHERE where_clause
+\end{sqlcode}
+
+\subsubsection{UPDATE}
+\begin{sqlcode}[UPDATE table SET column=value]
+UPDATE table_name SET column_name1=value1, column_name2=value2, ... [WHERE where_clause]
+\end{sqlcode}
+Alters the data within a column based on the conditions in the where\_clause.
+\subsection{Other commands}
+See \url{http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm}.
+\section {Tips}
+\subsection{Shell Alias}
+You can use shell aliases to execute a specific command:
+
+\ic{alias usrcount="mysql -u appadmin -p myapplication -e \"select count(id) from users\""}
+\subsection{Formating Output}
+
+Rendering query results in a vertical format:
+
+\ic{SELECT * from users WHERE id=1\\G;}
+
+Or without semicolon using:
+
+\ic{SELECT * from users WHERE id=1\\g}
+
+MySQL queries can be formatted in a better way using less:
+
+\ic{\\P less -S}
+
+you don’t have to look at wrapped rows, you can just scroll right and left
+
+\ic{pager column -t | less -S}
+
+Or you can use vim
+
+\ic{pager vim -R -c "set nowrap" -}
+
+Or use default pager
+\ic{nopager or \n}

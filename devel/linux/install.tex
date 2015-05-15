@@ -1,0 +1,19 @@
+\section{Installing applications on Linux}
+\subsection{Uncompress tar.gx}
+\ic{tar -zxvf ArgoUML-0.34.tar.gz}
+\subsection{Install a deb file}
+\ic{sudo dpkg -i DEB_PACKAGE}
+\subsection{Remove a deb file}
+\ic{sudo dpkg -r PACKAGE_NAME}
+\subsection{Upgrade}
+\ic{sudo apt-get update}
+\ic{sudo apt-get upgrade}
+\ic{sudo apt-get install -f}
+\subsection{Add keys}
+for example Spotify:
+
+\ic{sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 94558F59}
+
+This may not work so instead use:
+\ic{gpg -a --export 94558F59 | sudo apt-key add -}
+\ic{gpg -a --export 94558F59 | apt-key add - }

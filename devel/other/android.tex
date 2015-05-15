@@ -1,0 +1,97 @@
+
+\section{PreRequirements}
+There are certain considerations before upgrade for different operating systems:
+
+\subsection{Linux}
+\subsubsection{Running commands as admin}
+In linux both adb and fastboot commands should run as administrator (sudo). But they are not accessible for root user by default, to make them accessible use:
+
+\ic{ln -s /home/existme/Android/Sdk/platform-tools/fastboot /usr/local/sbin/fastboot }
+
+\ic{ln -s /home/existme/Android/Sdk/platform-tools/adb /usr/local/sbin/adb }
+\subsection{Windows}
+N/A
+\subsection{Mac}
+No need to do anything.
+
+\section{Upgrade process}
+When a new upgrade comes, there are two ways to upgrade the android device:
+\subsection{Factory Reset/Flashing Stock}
+Factory reset is the easiest option. First download latest factory image for your device from this \href{https://developers.google.com/android/nexus/images}{link}.
+
+\begin{list}{$\bullet$}{}
+	\item {\textbf{Are you connected? :}}\newline
+		First, make sure that your computer is communicating correctly with your Nexus phone or tablet. use the command: \ic{adb devices}
+	\item {\textbf{Bootloader:}} 
+		Boot into bootloader using: \ic{adb reboot bootloader}
+	\item {\textbf{Unlock OEM if needed:}}\newline
+		If your device is not already unlocked it's essential that you unlock it before proceeding to the next steps. Unlock your device using: \ic{fastboot oem unlock}
+	\item {\textbf{FlashAll:}}\newline
+		Execute the flash-all script. This script installs the necessary bootloader, baseband firmware(s), and operating system.\newline
+		\ic{./flash-all}
+\end{list}
+
+\subsection{OTA update}
+First download the OTA update, you should search for the id and keyword OTA. for example search for "LMY47I OTA link"
+\begin{list}{$\bullet$}{}
+	\item{\textbf{Are you connected? :}}\newline
+		First, make sure that your computer is communicating correctly with your Nexus phone or tablet. use the command: \ic{adb devices}
+	\item {\textbf{Bootloader:}} 
+		Boot into bootloader using: \ic{adb reboot bootloader}
+	\item {\textbf{Goto Recovery mode:}} \newline
+		Use the \textbf{volume down} button twice until you have scrolled to \textbf{Recovery mode}, and press the power button to select it
+	\item {\textbf{Don't freak:}} 
+		An image of an Android with a red exclamation mark over it will appear (that's OK)
+	\item {\textbf{**Get out of this mode:}}\newline
+		Hold down the \textbf{power button} and press the \textbf{volume up button}, and you will be in recovery mode
+	\item {\textbf{Go to receiving adb mode:}}\newline
+		Use the volume down button to highlight \textbf{apply update from ADB} and press the power button to select it
+	\item {\textbf{Flash the actual system image:}} Flash the actual system image using: \newline \ic{sudo adb sideload [OTA file].zip}
+\end{list}
+
+\subsection{Do you have problem with \textit{adb sideload}?} 
+For linux machines I've encountered a problem in which \ic{adb sideload} wasn't able to upload the file. When issuing "\ic{adb sideload devices}", I just got \ic{ ?????????????? no permissions}.
+
+This problem is due to wrong adb-server state. If you restart the server the problem would be fixed:
+
+\ic{sudo su}\newline
+\ic{adb kill-server}\newline
+\ic{adb start-server}\newline
+\ic{exit}
+
+\paragraph{For Rooted systems:}
+Usually if you are rooted, you can't do it just like the above procedure and last step would fail. That's because system files are modified and the updater is going to verify system files. The easiest way to overcome this problem is:
+\begin{list}{$\bullet$}{}
+	\item{\textbf{Download latest stock image:}}\newline
+		First, download the exact stock image of your OTA image from \href{https://developers.google.com/android/nexus/images}{here}. Note that these are two different files. The stock image is bigger than the OTA image.
+	\item{\textbf{Extract needed files from stock image}}\newline
+		Extract big zip file from the downloaded \ic{.tgz} file.\newline
+		Extract system.img boot.img and recovery.img from the extracted zip file.
+	\item{\textbf{Flash system files}}\newline
+		Flash the extracted files to your device. Note that your data wouldn't be lost in this way.\newline
+		\ic{sudo fastboot flash boot boot.img}\newline
+		\ic{sudo fastboot flash recovery recovery.img}\newline
+		\ic{sudo fastboot flash system system.img}
+	\item{\textbf{Retry to update OTA}}\newline
+		Now retry to update OTA using the above procedure.
+\end{list}
+\warning \textbf{Note!}
+There is a \textbf{\ic{flash_all.sh}} script which can be used in-case you weren't able to unroot the device and all the above methods failed. However, it will completely \textbf{*wipe*} the device.
+\section{Disabling the encryption}
+In some devices it's not possible to remove encryption easily. To disable it and improving performance you need to use a modified boot loader. The only option that I am currently aware of, is a windows-base utility called "Nexus Root Toolkit" which can do the job but this process needs wiping the device. However, this utility is extremely powerful since it can almost automatically do everything including the above steps. The only downside is that it is only available for Windows. 
+\section{Rooting}
+The fastest way to root nexus devices:
+
+\begin{list}{$\bullet$}{}
+	\item {\textbf{Get the latest TWRP:}} 
+		Get the latest TWRP image for your device for example from \href{http://techerrata.com/browse/twrp2/hammerhead}{here}.
+	\item {\textbf{Get the latest SUPERSU:}} 
+		Get the latest SuperSU \textbf{zip} for your device from \href{http://download.chainfire.eu/696/SuperSU/}{chainfire}.
+	\item {\textbf{Goto bootloader:}} 
+		Boot into bootloader using: \ic{adb reboot bootloader}
+	\item {\textbf{Boot using TWRP}} 
+		Boot the device with TWRP image 	downloaded using:\newline \ic{sudo fastboot boot [twrp-image-file].img }
+	\item {\textbf{Sideload SUPERSU}} 
+		In TWRP screen start sideload process, then sideload downloaded supersu zip file using: \ic{sudo adb sideload [SuperSU-file].zip}
+	\item {\textbf{Reboot}} Reboot your device, install SUPERSU application and RootChecker to verify your installation.
+\end{list}
