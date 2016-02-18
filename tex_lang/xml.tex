@@ -1,26 +1,24 @@
 % **************************************************
-% *                        Java
+% *                        XML
 % **************************************************
-\lstdefinestyle{java}{
+\lstdefinestyle{xml}{
   keywordstyle=\color{blue}\bfseries,
   ndkeywords={class, export, boolean, throw, implements, import, this},
   ndkeywordstyle=\color{darkgray}\bfseries,
   identifierstyle=\color{black},
   sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
   commentstyle=\color{purple}\ttfamily,
   stringstyle=\color{red}\ttfamily,
   morestring=[b]',
   morestring=[b]"
 }
-\lstnewenvironment{javacode}[1][]%
+\lstnewenvironment{xmlcode}[1][]%
     {\noindent\minipage{\linewidth}%
             \lstset{
             backgroundcolor=\color{backcolour},
             numberstyle=\tiny\color{codegray},
             basicstyle=\footnotesize,
-            language=java,
+            language=xml,
             breaklines=true,
             captionpos=t,
             caption=#1,

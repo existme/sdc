@@ -81,6 +81,23 @@
 		\item Show push changes dialog: \ic{ctrl + shift + K}
 		\item To compare two files, select them and use \ic{ctrl + D}
 	\end{itemize}
+	\item \textbf{New things}
+	\begin{itemize}
+		\item Toggle full screen \ic{ctrl + shift + F12}
+		\item Stretch to right \ic{ctrl + shift + Right} (Use alt+1 to go to project view for example)
+		\item Stretch to left \ic{ctrl + shift + Left} 
+		\item Add selection for next occurrence \ic{alt + j} 
+		\item Remove selection for next occurrence \ic{alt + shift + j} 
+		\item Select all occurrences \ic{ctrl + alt + shift + j} 
+		\item Hippie completion \ic{alt + /} (write t and press Hippie completion, it will go through cyclic search of terms which begin with that word)
+		\item Insert live template \ic{ctrl + j}
+		\item Navigate to file structure popup \ic{ctrl + F12}
+		\item Show navigation popup \ic{Alt + Home}
+		\item Show refactoring popup \ic{Ctrl + Alt + Shift + T}
+		\item Quickly switch schema \ic{Ctrl + `}
+		\item \textbf{Take a look at "Quick Lists".} They are useful for creating shortcuts of reoccuring actions.
+
+	\end{itemize}
 \end{itemize}
 Moreover, you can check the following page : \href{https://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard.pdf}{IDEA Reference Card} or alternately choose Help|Default Keymap Reference.
 
@@ -106,3 +123,13 @@ Moreover, you can check the following page : \href{https://www.jetbrains.com/ide
 In order to be able to search for maven artifacts Maven Central Repository should be updated. Goto Maven Repositories and update \href{http://repo.maven.apache.org/maven2}{http://repo.maven.apache.org/maven2}. 
 
 When changing the maven POM file we need to reimport it in IntelliJ to be able to compile the project. This will cause \textbf{project.iml} file be updated which is needed for IntelliJ to be able to compile.
+
+\subsection {Live Templates}
+
+Here are some examples of LiveTemplates:
+
+\begin{verbatim}
+\begin{javacode}
+$SELECTION$
+\end{javacode}
+\end{verbatim}

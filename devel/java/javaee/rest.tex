@@ -1,0 +1,57 @@
+\section{Rest Services}
+\subsection{Resource Naming}
+\begin{itemize}
+	\item \textbf{Pluralization}:\newline
+		There are good arguments on both sides (pluralizers and the "singularizers"), but the commonly-accepted practice is to always use plurals in node names to keep your API URIs consistent across all HTTP methods. The reasoning is based on the concept that customers are a collection within the service suite and the ID (e.g. 33245) refers to one of those customers.
+		Using this rule, an example multi-node URI using pluralization would look like (emphasis added):
+		
+		GET \url{http://www.example.com/customers/33245/orders/8769/lineitems/1}
+
+		However, there are cases that it doesn't make sense. like:\newline
+		GET|PUT|DELETE \url{http://www.example.com/configuration}
+	\item \textbf{The official rules for URIs:}\newline
+		See Internet Engineering Task Force (IETF) - \href{http://tools.ietf.org/html/rfc6570}{URI-Template}
+
+\end{itemize}
+
+\subsection{Wildfly-Rest Skeleton}
+In order for rest end points be discoverable you should have a \ic{src/main/webapp/WEB-inf/web.xml} containing the following xml. The code comes from this 
+\href{http://docs.jboss.org/resteasy/docs/2.2.1.GA/userguide/html/Installation_Configuration.html}{page}.
+
+\begin{xmlcode}
+<web-app>
+    <display-name>Archetype Created Web Application</display-name>
+
+    <servlet>
+        <servlet-name>RezaTest</servlet-name>
+
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.existme.testee.MyApp</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RezaTest</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+\end{xmlcode}
+
+Or it can be shortened into this form:
+
+\begin{xmlcode}
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        id="WebApp_ID" version="3.0">
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+\end{xmlcode}

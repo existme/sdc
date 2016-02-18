@@ -1,0 +1,92 @@
+\section{Arquillian}
+
+\subsection{Multiple `Deployments`}
+You can have multiple deployments by having several \ic{@Deployment(name="DEPLOYMENT_NAME")} annotations.
+Later you can annotate test cases by \ic{@OperateOnDeployment} to indicate which test cases run with which deployment archive.
+You can also use \ic{@TargetsContainer} on a deployment to run that specific deployment on a specific container.
+
+\subsection{Container Testing}
+
+Types of different containers:
+\begin{itemize}
+	\item \textbf{Embedded containers} : Run on the same JVM as your tests.
+	\item \textbf{Managed containers} : Arquillian will start during the tests and shuts down after the tests are run.
+	\item \textbf{Remote containers} : Which are assumed to be running.
+\end{itemize}
+
+\subsubsection{Deployments}
+Arquillian uses a static method defined in your test case to create the archive. The
+method signature roughly is \ic{public static Archive<?> createTestArchive()}.
+This method must be annotated \ic{@Deployment} – this will tell Arquillian to find
+the archive and execute it to create the test content. Each of these archive types
+also supports different kinds of content.
+\subsubsection{Protocols}
+There are 4 major protocols for arquillian:
+\begin{itemize}
+	\item \textbf{Local}
+	\item \textbf{Servlet 2.5}
+	\item \textbf{Servlet 3.0}
+	\item \textbf{JMX}
+\end{itemize}
+
+\subsubsection{arquillian.xml}
+This file is located in \ic{src/test/resources}. The base skeleton is like this:
+
+\begin{xmlcode}[arquillian.xml]
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="
+        http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <container qualifier="(*@\hl{reza-wildfly}@*)" default="true">
+        <configuration>
+            <property name="jbossHome">C:\unix\wildfly-8.1.0.Final</property>
+        </configuration>
+    </container>
+</arquillian>
+\end{xmlcode}
+
+The container "reza-wildfly" should be activated in POM file so in POM file we should have a section to activate it.
+
+\begin{xmlcode}[wildfly81-embedded profile in POM.xml]
+<profile>
+    <id>wildfy81-embedded</id>
+    <!-- the dependencies for Wildfly8.1  -->
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-arquillian-container-embedded</artifactId>
+            <version>8.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-embedded</artifactId>
+            <version>8.1.0.Final</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <jboss.home>${wildflyhome}</jboss.home>
+                        <module.path>${wildflyhome}/modules</module.path>
+                        <arquillian.launch>(*@\hl{reza-wildfly}@*)</arquillian.launch>
+                    </systemPropertyVariables>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</profile>
+\end{xmlcode}

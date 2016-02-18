@@ -1,0 +1,60 @@
+\section{Persistence}
+\subsection{PersistenceProvider}
+In order to PersistenceProvider work in Intellij the following dependency should be added to pom.xml and maven depenedencies should be re imported in InteliJ.
+The JQL console should be closed and reopened for settings to be applied.
+
+\begin{xmlcode}
+	<dependency>
+	<groupId>org.eclipse.persistence</groupId>
+	<artifactId>eclipselink</artifactId>
+	<version>2.6.2</version>
+	</dependency>
+	
+\end{xmlcode}
+\subsection{Persistence Unit}
+\ic{persistence.xml} should reside in \ic{src/main/resources/META_INF/persistence.xml}.
+
+A sample persistence unit for eclipselink looks like this:
+
+\begin{xmlcode}
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+	<persistence-unit name="pu" transaction-type="JTA">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.existme.testee.CityEntity</class>
+		<jta-data-source>java:/rezasql</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>		
+		<properties>
+			<property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/world"/>
+			<property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="eclipselink.jdbc.user" value="root"/>
+			<property name="eclipselink.jdbc.password" value="nassim"/>
+		</properties>
+	</persistence-unit>
+</persistence>
+\end{xmlcode}
+
+\textbf{**} <jta-data-source> above is important to get rid of jta error.
+
+\textbf{**Setup eclipselinks for wildfly}
+Follow the instructions at this \href{http://giordanomaestro.blogspot.se/2015/02/install-jdbc-driver-on-wildfly.html}{page}. Latest version of eclipse.jar could be find \href{http://central.maven.org/maven2/mysql/mysql-connector-java/}{here}.
+\textbf{**} Sometimes the injection of PersistenceUnit is not possible and you can use PersistenceContext instead.
+\vspace{1cm}
+Inject persistence unit using:
+
+\begin{javacode}
+@PersistenceContext(unitName = "pu")
+EntityManager em;
+\end{javacode}
+
+Query persistence unit using:
+
+\begin{javacode}[createQuery sample]
+@GET
+@Path("/city")
+@Produces("application/json")
+public Response listCities() {
+   	List resultList = em.createQuery("select c from CityEntity c").getResultList();
+   	return Response.status(200).entity(resultList).build();
+}
+\end{javacode}

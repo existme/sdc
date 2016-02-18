@@ -1,3 +1,38 @@
 \section{Maven}
+\subsection{Installation}
 Inorder to \ic{M2_HOME} be accessible through all applications in MacOsX you should configure \ic{lunchd}.
 \ic{launchctl setenv M2_HOME /usr/local/apache-maven/apache-maven-3.2.3}
+\subsection{Setting Up}
+\begin{itemize}
+	\item There are different settings that should be modified locally in-order for goals to work. For example the following items should be added to \ic{\~/.m2/settings.xml} file: \newline
+	\begin{javacode}[profile]
+		<profiles>
+		<profile>
+		<id>glassfish-profile</id>
+		<properties>
+		<glassfish.user>admin</glassfish.user>
+		<glassfish.password>nassim</glassfish.password>
+		<glassfish.domain.host>gammer.se.company.com</glassfish.domain.host>
+		<glassfish.local.directory>/Users/rezasa/glassfish4</glassfish.local.directory>
+		<glassfish.domain.name>domain1</glassfish.domain.name>
+		<glassfish.domain.httpPort>8080</glassfish.domain.httpPort>
+		<glassfish.domain.adminPort>4848</glassfish.domain.adminPort>
+		<migrate_db_url>jdbc:mysql://gammer.se.company.com:3306/crm_test</migrate_db_url>
+		<migrate_db_user>pos_test</migrate_db_user>
+		<migrate_db_user_password>pos_test</migrate_db_user_password>
+		</properties>
+		</profile>
+		</profiles>
+	\end{javacode}
+	\item It is important for some commands to be in the correct directory and then execute them. For example in \ic{pos-services}. A list of known commands to me are:
+	\begin{itemize}
+		\item \ic{mvn clean test}\newline
+		Then you go to for example \ic{pos-services/target/surefire-reports} or \ic{pos-services/target/jacoco-ut} to view the reports and see the coverage.
+		\item \ic{mvn exec:exec -P glassfish-profile,db-migrate}\newline
+		Use this in \ic{pos-services} folder to do database migration
+		\item Another possibility is to recompile and redeploying\newline
+		\ic{mvn compiler:compile glassfish:redeploy -P glassfish-profile}
+	\end{itemize}
+\end{itemize}
+\subsection{Action}
+\paragraph{How maven works?}
